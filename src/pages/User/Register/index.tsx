@@ -24,11 +24,6 @@ const Register: React.FC = () => {
     };
   });
 
-  useEffect(() => {
-    listChartByPageUsingPOST({}).then((res) => {
-      console.error('res', res);
-    });
-  });
 
   const handleSubmit = async (values: API.UserRegisterRequest) => {
     try {

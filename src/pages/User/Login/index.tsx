@@ -26,11 +26,6 @@ const Login: React.FC = () => {
     };
   });
 
-  useEffect(() => {
-    listChartByPageUsingPOST({}).then((res) => {
-      console.error('res', res);
-    });
-  });
 
   /**
    * 登陆成功后，获取用户登录信息
