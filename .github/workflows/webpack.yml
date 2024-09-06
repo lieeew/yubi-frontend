@@ -38,19 +38,14 @@ jobs:
         run: ls
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.0.3
-        env:
-          SERVER_HOST: ${{ secrets.SERVER_HOST }} 
-          SERVER_USER: ${{ secrets.SERVER_USER }}  
-          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}  
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          envs: SERVER_HOST,SERVER_USER,SERVER_PASSWORD
           script: |
             ls -a 
             rm -rf app
-            mkdir -p ~/app/dist
+            mkdir -p ~/app
       - name: Upload folder using SCP
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -58,4 +53,4 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           source: "dist/*" # 本地需要上传的文件夹
-          target: "~/app/dist/" # 远程服务器上的目标路径
+          target: "~/app/" # 远程服务器上的目标路径
