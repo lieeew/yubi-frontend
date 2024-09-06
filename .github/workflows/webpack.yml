@@ -50,4 +50,4 @@ jobs:
           script: |
             rm -rf app
             mkdir -p ~/app/dist
-            scp -r dist/* $SERVER_USER@$SERVER_HOST:~/app/dist/
+            rsync -avz dist/ ~/app/dist/
