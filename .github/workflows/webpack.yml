@@ -48,10 +48,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           envs: SERVER_HOST,SERVER_USER,SERVER_PASSWORD
           script: |
-            whoami
-            echo "I am $SERVER_HOST"
-            echo "I am $SERVER_USER"
-            echo "sha: $SERVER_PASSWORD"
             rm -rf app
             mkdir -p ~/app/dist
             scp -r dist/* $SERVER_USER@$SERVER_HOST:~/app/dist/
