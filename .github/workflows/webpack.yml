@@ -1,0 +1,51 @@
+name: Github action
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 16.x, 18.x ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install
+      - run: npm run build --if-present
+
+      # 👇 Store the dist folder
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-build
+          path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      # 👇 Get the dist folder
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: app-build
+      - name:  show dist file
+        run: ls
+      # 👇 Login to server and upload dist folder
+      - name: Upload dist folder to server
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}  # 服务器地址
+          SERVER_USER: ${{ secrets.SERVER_USER }}  # SSH 用户
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}  # SSH 密码 (或用密钥)
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=accept-new $SERVER_USER@$SERVER_HOST 'mkdir -p ~/app/dist'
+          scp -r dist/* $SERVER_USER@$SERVER_HOST:~/app/dist/
+          rm ~/.ssh/id_rsa
