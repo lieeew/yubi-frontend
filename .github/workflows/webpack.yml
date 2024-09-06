@@ -48,6 +48,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           envs: SERVER_HOST,SERVER_USER,SERVER_PASSWORD
           script: |
+            ls -a 
             rm -rf app
-            mkdir -p ~/app/dist
-            rsync -avz dist/ ~/app/dist/
+            # mkdir -p ~/app/dist
+            # rsync -avz dist/ ~/app/dist/
