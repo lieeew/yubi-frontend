@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 16.x, 18.x ]
+        node-version: [ 18.x ]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -49,5 +49,9 @@ jobs:
           envs: SERVER_HOST,SERVER_USER,SERVER_PASSWORD
           script: |
             whoami
+            echo "I am $SERVER_HOST"
+            echo "I am $SERVER_USER"
+            echo "sha: $SERVER_PASSWORD"
+            rm -rf app
             mkdir -p ~/app/dist
             scp -r dist/* $SERVER_USER@$SERVER_HOST:~/app/dist/
