@@ -44,6 +44,10 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: whoami
       - name: upload dist folder
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }} 
+          SERVER_USER: ${{ secrets.SERVER_USER }}  
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}  
         run: |
           mkdir -p ~/app/dist
           scp -r dist/* $SERVER_USER@$SERVER_HOST:~/app/dist/
