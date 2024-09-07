@@ -121,7 +121,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request = {
-  baseURL: 'https://bi-backend.leikooo.cn',
+  baseURL: 'http://1.117.228.86:8080',
   withCredentials: true,
   ...errorConfig,
 };
